@@ -1,4 +1,4 @@
-/Users/jch/.ssh/id_rsa
+
 在阿里云上搞个Git远程仓库。
 搭建一个gitlab
 建议用命令复制ssh key,用文本软件打开有可能出错!
@@ -29,5 +29,3 @@ git push -u origin master
 …or import code from another repository
 You can initialize this repository with code from a Subversion, Mercurial, or TFS project.
 
-
-git name: jch   git pwd : 12345
