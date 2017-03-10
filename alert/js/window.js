@@ -97,21 +97,12 @@ define(['widget','jquery','jqueryUI'],function(widget,$,$ui){
 				that.destroy();
 			})
 			//绑定自定义事件
-			if(this.cfg.handler4CloseBtn){
-					this.on('close',this.cfg.handler4CloseBtn)//自定义事件
-			}
-			if(this.cfg.handler4AlertBtn){
-					this.on('alert',this.cfg.handler4AlertBtn)
-			}
-			if(this.cfg.handler4ConfirmBtn){
-					this.on('confirm',this.cfg.handler4ConfirmBtn)
-			}
-			if(this.cfg.handler4CancelBtn){
-					this.on('cancel',this.cfg.handler4CancelBtn)
-			}
-			if(this.cfg.handler4PromptBtn){
-					this.on('prompt',this.cfg.handler4PromptBtn)
-			}
+			this.cfg.handler4CloseBtn &&  this.on('close',this.cfg.handler4CloseBtn);
+			this.cfg.handler4AlertBtn &&  this.on('alert',this.cfg.handler4AlertBtn);
+			this.cfg.handler4ConfirmBtn&&  this.on('confirm',this.cfg.handler4ConfirmBtn);
+			this.cfg.handler4CancelBtn &&  this.on('cancel',this.cfg.handler4CancelBtn)
+			this.cfg.handler4PromptBtn &&  this.on('prompt',this.cfg.handler4PromptBtn)
+
 		},
 		syncUI:function(){//dom其它一些属性，如设置长宽，换肤,可拖动等
 			this.bBox.css({
