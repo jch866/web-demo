@@ -1,7 +1,8 @@
 1.pc端的HTML5 API
 2.基于webview的hybrid native app 开发
 3. APP h5开发
-清除预览记录
+http://www.jb51.net/books/ js电子书
+addClass()操作注意选择器权重问题
 结构方面，H5提供了语义化标签
 API方面，更多的API支持
 相比native app  ，   h5 app

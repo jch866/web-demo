@@ -7,9 +7,13 @@
 		function LSsetter(key,val){
 			return localStorage.setItem(prefix+key,val);
 		}
+        function LSremove(key){
+            return localStorage.removeItem(prefix+key);
+        }
 		return {
 			lsSet:LSsetter,
-			lsGet:LSgetter
+			lsGet:LSgetter,
+            lsRm:LSremove
 		}
 	})()
     var Dom = {
@@ -26,7 +30,9 @@
     };
     var win = $(window),
         initFontSize = parseInt(Util.lsGet("font_size")) || 14,
-        initBg = Util.lsGet("bg_color") || 'F7EEE5',
+        dayColor = 'F7EEE5',
+        initBg = Util.lsGet("bg_color") || dayColor,
+        dayClass = Util.lsGet("dayClass"),
         doc = $(document);
 
       Dom.fiction.css({
@@ -40,8 +46,16 @@
                 return;
             }
       })
+
+      if(dayClass){
+        Dom.btmNight.addClass(dayClass).text('白天');
+      }
+      // else{
+      //   Dom.btmNight.removeClass(dayClass).text('夜间');
+      // }
+
 	function main(){
-        bindEvent()
+        bindEvent();
 	}
 	function renderUI(){
 
@@ -102,13 +116,29 @@
             $(this).addClass('activeBg');
             color = $(this).attr('data-bg');
             changeParaBg(color);
-            console.dir(this);
+        })
+        Dom.btmNight.on('click',function(){
+            Dom.setFG.hide();
+            Dom.btmFont.removeClass('current');
+            if($(this).hasClass('dayStyle')){
+                changeParaBg(dayColor);
+                $(this).removeClass('dayStyle').text('黑夜');
+                Util.lsRm('dayClass');
+            }else{
+                
+                changeParaBg($("li[data-bg='283548']").attr('data-bg'));
+                $(this).addClass('dayStyle').text('白天');
+                Util.lsSet('dayClass','dayStyle');
+            }
+
         })
         function changeCurrentBg(){
             Dom.changeBgLi.hasClass('activeBg') && Dom.changeBgLi.removeClass('activeBg') 
         }
         function changeParaBg(color){
             Dom.fiction.css('background','#'+color);
+            // data-font-color='ffffff'
+            //Dom.fiction.css({'background':'#'+color,'color':color});//可以同时更换字体的颜色
             Util.lsSet('bg_color',color);
         }
 
