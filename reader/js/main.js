@@ -47,12 +47,7 @@
             }
       })
 
-      if(dayClass){
-        Dom.btmNight.addClass(dayClass).text('白天');
-      }
-      // else{
-      //   Dom.btmNight.removeClass(dayClass).text('夜间');
-      // }
+    dayClass  &&  Dom.btmNight.addClass(dayClass).text('白天');
 
 	function main(){
         bindEvent();
@@ -103,9 +98,6 @@
             initFontSize-=1;
             Dom.fiction.css('fontSize',initFontSize);
             Util.lsSet('font_size',initFontSize);
-        }) 
-        $("#btm_night").click(function(){
-
         }) 
         $("#btm_catalog").click(function(){
 
