@@ -2,7 +2,20 @@
 2.基于webview的hybrid native app 开发
 3. APP h5开发
 http://www.jb51.net/books/ js电子书
+
+MAC的apache根目录的设置只能有两个吗？一个默认的，一个是在uers下面的 ： "/Users/jch/Sites"
+其它的为什么不行，如：DocumentRoot "/Users/jch/documents/webDemo"
+(其它的是不是因为权限问题导致不能访问，主要是documents权限待确定)
+即使把文件拷贝到根目录下，能否访问，是不是和文件夹权限有关系？
+如何把其它文件目录映射到根目录下面
+
+
+
 addClass()操作注意选择器权重问题
+get请求到的数据是base64加密过的，避免被爬走
+github查看代码修改记录，代码对比
+先获取章节数据，根据章节ID取章节内容，然后返回加密文件，前端解码
+
 结构方面，H5提供了语义化标签
 API方面，更多的API支持
 相比native app  ，   h5 app
