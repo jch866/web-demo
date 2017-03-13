@@ -1,12 +1,12 @@
 (function(){
-	var Util = (function(){
-		var prefix = 'reader_'
-		function LSgetter(key){
-			return localStorage.getItem(prefix+key);
-		}
-		function LSsetter(key,val){
-			return localStorage.setItem(prefix+key,val);
-		}
+    var Util = (function(){
+        var prefix = 'reader_'
+        function LSgetter(key){
+            return localStorage.getItem(prefix+key);
+        }
+        function LSsetter(key,val){
+            return localStorage.setItem(prefix+key,val);
+        }
         function LSremove(key){
             return localStorage.removeItem(prefix+key);
         }
@@ -23,13 +23,13 @@
                 }
              })
         }
-		return {
-			lsSet:LSsetter,
-			lsGet:LSgetter,
+        return {
+            lsSet:LSsetter,
+            lsGet:LSgetter,
             lsRm:LSremove,
             getJSONP:getJSONP
-		}
-	})()
+        }
+    })()
     var Dom = {
         topNav:$("#top-nav"),
         bottomNav:$("#bottom-nav"),
@@ -47,7 +47,8 @@
         dayColor = 'F7EEE5',
         initBg = Util.lsGet("bg_color") || dayColor,
         dayClass = Util.lsGet("dayClass"),
-        doc = $(document);
+        doc = $(document),
+        readModel;
 
       Dom.fiction.css({
             "fontSize":initFontSize,
@@ -63,15 +64,15 @@
 
     dayClass  &&  Dom.btmNight.addClass(dayClass).text('白天');
 
-	function main(){//入口函数
-        var readModel = getData();
+    function main(){//入口函数
+        readModel = getData();
         // var domSet = renderUI(Dom.fiction);
         readModel.init(function(data){
             renderUI(Dom.fiction,data);
         });
         bindEvent();
-	}
-	function renderUI(container,data){
+    }
+    function renderUI(container,data){
         //得到数据，了解数据结构再渲染UI结构
         // function getDom(data){
         //     var str = JSON.parse(data);
@@ -91,8 +92,8 @@
                 html+='<p>'+str.p[i]+'</p>'
             }
         container.html(html);
-	}
-	function bindEvent(){//绑定事件
+    }
+    function bindEvent(){//绑定事件
         $("#mid_area").click(function(){
             if(Dom.topNav.css("display") === "none"){
                 Dom.topNav.show();
@@ -135,7 +136,19 @@
             initFontSize-=1;
             Dom.fiction.css('fontSize',initFontSize);
             Util.lsSet('font_size',initFontSize);
-        }) 
+        })
+        /* 处理翻页后刷新重新回到第一页 */
+        $("#prev_btn").click(function(){
+            //获得章节的翻页数据，然后再渲染出来
+            readModel.prevC(function(data){
+                renderUI(Dom.fiction,data);
+            })
+        })
+        $("#next_btn").click(function(){
+            readModel.nextC(function(data){
+                renderUI(Dom.fiction,data);
+            })
+        })
         $("#btm_catalog").click(function(){
 
         })
@@ -170,10 +183,10 @@
             Util.lsSet('bg_color',color);
         }
 
-	}
+    }
     
-	function getData(){
-        var chapter_id;
+    function getData(){
+        var chapter_id,chapter_len;
         function init(UIcb){
             getFictionInfo(function(){
                 getChapterContent(chapter_id,function(data){
@@ -184,7 +197,14 @@
         function getFictionInfo(callback){
             $.get('data/chapter.json',function(data){//获取章节信息
             //获取章节信息之后的回调
-                chapter_id = data.chapters[2].chapter_id;
+                chapter_len = data.chapters.length;
+                chapter_id = Util.lsGet('last_chapter_id');
+                if(chapter_id == null){
+                    chapter_id = data.chapters[1].chapter_id;
+                }
+                // else{
+                //     chapter_id = data.chapters[chapter_id].chapter_id;
+                // }
                 callback && callback(data);
             },'json')
         }
@@ -199,9 +219,29 @@
                 }  
             },'json')
         }
-        return {
-            init :init
+        var prevChapter = function(UIcb){//chapter_id参数在这个getData人全局，所以可以不传，直接用
+            chapter_id = parseInt(chapter_id,10);//这是转换整形严谨的写法
+            if(chapter_id === 0 ){
+                return;
+            }
+            chapter_id -= 1;
+            getChapterContent(chapter_id,UIcb);
+            Util.lsSet("last_chapter_id",chapter_id);
         }
-	}
-	main();
+        var nextChapter = function(UIcb){
+            chapter_id = parseInt(chapter_id,10);
+            if(chapter_id === chapter_len ){
+                return;
+            }
+            chapter_id +=1;
+            getChapterContent(chapter_id,UIcb);
+            Util.lsSet("last_chapter_id",chapter_id);
+        }
+        return {
+            init :init,
+            prevC :prevChapter,
+            nextC:nextChapter
+        }
+    }
+    main();
 })()
