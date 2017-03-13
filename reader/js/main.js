@@ -1,12 +1,13 @@
 (function(){
-    var Util = (function(){
-        var prefix = 'reader_'
-        function LSgetter(key){
-            return localStorage.getItem(prefix+key);
-        }
-        function LSsetter(key,val){
-            return localStorage.setItem(prefix+key,val);
-        }
+    'use strict' //es6必须声明
+	var Util = (function(){
+		var prefix = 'reader_'
+		function LSgetter(key){
+			return localStorage.getItem(prefix+key);
+		}
+		function LSsetter(key,val){
+			return localStorage.setItem(prefix+key,val);
+		}
         function LSremove(key){
             return localStorage.removeItem(prefix+key);
         }
@@ -23,13 +24,13 @@
                 }
              })
         }
-        return {
-            lsSet:LSsetter,
-            lsGet:LSgetter,
+		return {
+			lsSet:LSsetter,
+			lsGet:LSgetter,
             lsRm:LSremove,
             getJSONP:getJSONP
-        }
-    })()
+		}
+	})()
     var Dom = {
         topNav:$("#top-nav"),
         bottomNav:$("#bottom-nav"),
@@ -64,15 +65,15 @@
 
     dayClass  &&  Dom.btmNight.addClass(dayClass).text('白天');
 
-    function main(){//入口函数
+	function main(){//入口函数
         readModel = getData();
         // var domSet = renderUI(Dom.fiction);
         readModel.init(function(data){
             renderUI(Dom.fiction,data);
         });
         bindEvent();
-    }
-    function renderUI(container,data){
+	}
+	function renderUI(container,data){
         //得到数据，了解数据结构再渲染UI结构
         // function getDom(data){
         //     var str = JSON.parse(data);
@@ -92,8 +93,8 @@
                 html+='<p>'+str.p[i]+'</p>'
             }
         container.html(html);
-    }
-    function bindEvent(){//绑定事件
+	}
+	function bindEvent(){//绑定事件
         $("#mid_area").click(function(){
             if(Dom.topNav.css("display") === "none"){
                 Dom.topNav.show();
@@ -137,7 +138,7 @@
             Dom.fiction.css('fontSize',initFontSize);
             Util.lsSet('font_size',initFontSize);
         })
-        /* 处理翻页后刷新重新回到第一页 */
+        
         $("#prev_btn").click(function(){
             //获得章节的翻页数据，然后再渲染出来
             readModel.prevC(function(data){
@@ -183,17 +184,31 @@
             Util.lsSet('bg_color',color);
         }
 
-    }
+	}
     
-    function getData(){
+	function getData(){
         var chapter_id,chapter_len;
         function init(UIcb){
+            /*promise改造前
             getFictionInfo(function(){
                 getChapterContent(chapter_id,function(data){
                     UIcb && UIcb(data);  
                 })
             })
+            */
+           /*promise改造后*/ //也可以通过es6的generator？
+           getFictionInfoPromise().then(function(data){//成功回调
+               return getChapterContentPromise();
+           },function(err){//失败回调
+                console.log(err)
+           }).then(function(data){
+                UIcb && UIcb(data);
+           })
+            
         }
+        /*
+        正常模式下，回调通过层层嵌套，不易阅读
+        */
         function getFictionInfo(callback){
             $.get('data/chapter.json',function(data){//获取章节信息
             //获取章节信息之后的回调
@@ -201,14 +216,37 @@
                 chapter_id = Util.lsGet('last_chapter_id');
                 if(chapter_id == null){
                     chapter_id = data.chapters[1].chapter_id;
-                }
-                // else{
-                //     chapter_id = data.chapters[chapter_id].chapter_id;
-                // }
+                }//不用else
                 callback && callback(data);
             },'json')
         }
-        //根据ID取章节内容
+        
+        /**
+         * 通过调用promise对象来进行改造，使代码更易阅读和理解
+         * @return {promise} 返回promise才能调用than方法
+         */
+        var getFictionInfoPromise = function() {
+                return new Promise(function(resolve, reject) {
+                    $.get('data/chapter.json', function(data) { //获取章节信息
+                        //获取章节信息之后的回调
+                        if (data.result == 0) {
+                            chapter_len = data.chapters.length;
+                            chapter_id = Util.lsGet('last_chapter_id');
+                            if (chapter_id == null) {
+                                chapter_id = data.chapters[1].chapter_id;
+                            }
+                            resolve()
+                        } else {
+                            reject({error:'error000000'})
+                        }
+                    }, 'json')
+                })
+            }
+
+
+        /*
+        正常模式下，回调通过层层嵌套，不易阅读
+        */
         function getChapterContent(id,callback){
             $.get('data/data'+id+'.json',function(res){
                 if(res.result ===0 ){
@@ -219,13 +257,34 @@
                 }  
             },'json')
         }
-        var prevChapter = function(UIcb){//chapter_id参数在这个getData人全局，所以可以不传，直接用
+               /**
+         * 通过调用promise对象来进行改造，使代码更易阅读和理解
+         * @return {promise} 返回promise才能调用than方法
+         */
+        var getChapterContentPromise = function() {
+                return new Promise(function(resolve, reject) {
+                    $.get('data/data' + chapter_id + '.json', function(res) {
+                        if (res.result === 0) {
+                            var url = res.jsonp;
+                            Util.getJSONP(url, function(data) {
+                                resolve(data);
+                            })
+                        } else {
+                            reject({ msg: 'error' })
+                        }
+                    }, 'json')
+                })
+            }
+
+        var prevChapter = function(UIcb){//chapter_id参数在这个getData内是全局的，所以可以不传，直接用
             chapter_id = parseInt(chapter_id,10);//这是转换整形严谨的写法
             if(chapter_id === 0 ){
                 return;
             }
             chapter_id -= 1;
             getChapterContent(chapter_id,UIcb);
+            // 处理翻页后刷新重新回到第一页 
+            if(chapter_id == 0){chapter_id =1} //只有4个章节
             Util.lsSet("last_chapter_id",chapter_id);
         }
         var nextChapter = function(UIcb){
@@ -234,7 +293,8 @@
                 return;
             }
             chapter_id +=1;
-            getChapterContent(chapter_id,UIcb);
+            getChapterContent(chapter_id,UIcb); 
+            if(chapter_id >4){chapter_id=4}
             Util.lsSet("last_chapter_id",chapter_id);
         }
         return {
@@ -242,6 +302,6 @@
             prevC :prevChapter,
             nextC:nextChapter
         }
-    }
-    main();
+	}
+	main();
 })()

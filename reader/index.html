@@ -30,8 +30,8 @@
 		 </div>
 		<div class="m-button-bar">
 			<ul class="u-tab">
-				<li class="prev_button">上一章</li>
-				<li class="next_button">下一章</li>
+				<li class="prev_button" id="prev_btn">上一章</li>
+				<li class="next_button" id="next_btn">下一章</li>
 			</ul>
 		</div>
 		<div class="setFont_bg" id="set_font_bg" style="display: none">
@@ -45,6 +45,7 @@
 			<div class="bg_set">
 				<div class="bg_title">背景</div>
 				<ul id='changeBg'>
+				<!-- 可以通过对象数据渲染的方式组装这些HTML -->
 					<li data-bg="F7EEE5"></li>
 					<li data-bg="E9DFC2"></li>
 					<li data-bg="A4A4A4"></li>
