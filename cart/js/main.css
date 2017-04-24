@@ -1,0 +1,66 @@
+*{margin: 0;padding: 0;}
+#topTitle{width: 900px;margin: 0 auto;padding:10px;border-bottom: 1px solid #666;}
+#goodsList{width: 100%; height: 300px;overflow-y: scroll}
+#goodsList li,
+#checkedGoods li{display: flex;border-bottom: 1px solid #333;line-height: 35px;}
+#goodsList li .gName{flex: 2;}
+#goodsList li .gPrice{flex: 1}
+#goodsList li .btn{width: 50px;}
+.hide{display: none}
+button{width: 50px;height:25px;border: 1px solid #333; border-radius:3px;
+text-align: center;line-height: 25px;background: none;}
+button:hover{background: #ddd}
+button#product{width: 100px;}
+.wrap{display: flex;width: 900px;margin: 10px auto;}
+#leftList{flex: 1;padding:0 10px 0 0; border-right: 1px dotted #333;}
+#rightList{flex: 1;padding: 0 0 0 20px}
+#checkedGoods{width: 100%;}
+#checkedGoods li .gName{flex: 2;}
+#checkedGoods li .gPrice{flex: 1}
+#checkedGoods li .gAmount{flex: 1}
+#checkedGoods li .gAmount em{display: inline-block;width: 15px;
+	text-align: center;
+	font-style: normal}
+#checkedGoods li .gAmount span{display: inline-block;
+	width: 20px;height: 20px;
+	border: 1px solid #999;
+	line-height: 20px;
+	text-align: center;
+	border-radius: 4px;
+	}
+#checkedGoods li .gAmount span:hover{cursor: pointer}
+#checkedGoods li .gTotal{flex: 1}
+
+#checkedGoods li .btn{width: 50px;}
+
+/* 商品标题部分 */
+#goodTitle{width: 100%; }
+#goodTitle li{display: flex;border-bottom: 1px solid #333;line-height: 35px;}
+#goodTitle li .gName{flex: 2;}
+#goodTitle li .gPrice{flex: 1}
+#goodTitle li .btn{width: 50px;}
+
+/* 已选商品标题部分 */
+#receiptTitle{}
+#receiptTitle li{display: flex;border-bottom: 1px solid #333;line-height: 35px;}
+#receiptTitle li .gName{flex: 2;}
+#receiptTitle li .gPrice{flex: 1}
+#receiptTitle li .gAmount{flex: 1}
+#receiptTitle li .gTotal{flex: 1}
+#receiptTitle li .btn{width: 50px;}
+
+.otherInfo{width: 900px;margin: 0 auto;border-top: 1px solid red;padding: 10px 0}
+
+.tab{
+	border: 1px solid #444;border-collapse: collapse;width: 72%;margin: 0 auto;
+}
+.tab th,.tab td{border: 1px solid #ccc;padding: 10px;}
+
+
+
+
+
+
+
+
+

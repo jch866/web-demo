@@ -1,0 +1,89 @@
+var swgData= [{
+    name:"老火靓汤",
+    value:58.00,
+    idx:1
+},{
+    name:"蒜蓉花甲",
+    value:98.00,
+    idx:2
+},{
+    name:"清蒸多宝鱼",
+    value:128.00,
+    idx:3
+},{
+    name:"蟹膏粥",
+    value:328.00,
+    idx:4
+},{
+    name:"白灼海虾",
+    value:128.00,
+    idx:5
+},{
+    name:"猪油渣炒芥兰",
+    value:38.00,
+    idx:6
+},{
+    name:"刺身拼盘",
+    value:498.00,
+    idx:7
+},{
+    name:"鱼香茄子煲",
+    value:48.00,
+    idx:8
+},{
+    name:"帝王虾",
+    value:298.00,
+    idx:9
+},{
+    name:"瓦罉焗生蚝",
+    value:58.00,
+    idx:10
+},{
+    name:"坑螺鸡",
+    value:88.00,
+    idx:11
+},{
+    name:"粉丝海鲜煲",
+    value:48.00,
+    idx:12
+},{
+    name:"咸蛋焗南瓜",
+    value:32.00,
+    idx:13
+},{
+    name:"木盆豉汁炒花甲",
+    value:42.00,
+    idx:14
+},{
+    name:"拾味鱼扒",
+    value:36.00,
+    idx:15
+},{
+    name:"蛤蜊蒸蛋",
+    value:25.00,
+    idx:16
+},{
+    name:"糖醋小排",
+    value:36.00,
+    idx:17
+},{
+    name:"菠萝炒饭",
+    value:28.00,
+    idx:18
+},{
+    name:"明炉雪菜桂鱼",
+    value:149.00,
+    idx:19
+},{
+    name:"香辣一锅海鲜",
+    value:98.00,
+    idx:20
+},{
+    name:"金牌牛肋骨",
+    value:189.00,
+    idx:21
+},{
+    name:"米饭",
+    value:3.00,
+    idx:22
+}];

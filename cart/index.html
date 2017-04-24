@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+    <link rel="stylesheet" href="js/main.css">
+    <script type="text/javascript"  src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript"  src="js/swg.js"></script>
+    <script type="text/javascript"  src="js/wem.js"></script>
+    <script type="text/javascript"  src="js/test.js"></script>
+    <script type="text/javascript"  src="js/main.js"></script>
+</head>
+
+<body>
+    <div>
+        <div id="topTitle">
+            <form action="" id="choice">
+                选择商品：
+                <input type="radio" name="name" value="1"> 沃尔玛
+                <input type="radio" name="name" value="2"> 拾味馆 
+                <input type="radio" name="name" value="3" checked="checked"> 测试 
+
+            </form>
+        </div>
+        <div class="wrap">
+            <div id="leftList">
+                <h3>商品清单</h3>
+                <ul id="goodTitle">
+                    <li>
+                        <div class="gName">名称</div>
+                        <div class="gPrice">价格</div>
+                        <div class="btn"></div>
+                    </li>
+                </ul>
+                <ul id="goodsList"></ul>
+            </div>
+            <div id="rightList">
+                <h3>小票清单</h3>
+                <ul id="receiptTitle">
+                    <li>
+                        <div class="gName">名称</div>
+                        <div class="gPrice">单价</div>
+                        <div class="gAmount">数量</div>
+                        <div class="gTotal">总价</div>
+                        <div class="btn">操作</div>
+                    </li>
+                </ul>
+                <ul id="checkedGoods">
+                    <!-- <li>
+                    <div></div>
+                    <div></div>
+                    <div><button>删除</button></div>
+                </li> -->
+                </ul>
+                <div class="total">合计：<span id="result">0</span>元</div>
+                <div id="clearAll">
+                    <button>重置</button>
+                </div>
+            </div>
+        </div>
+        <div class="otherInfo">
+            <h3>小票其它信息</h3>
+            <form action="" style="display: none;">
+                <span>小票头信息：</span><textarea name="" id="" cols="30" rows="10"></textarea>
+                <span>小票尾信息：</span> <textarea name="" id="" cols="30" rows="10"></textarea>
+            </form>
+            <div style="text-align: right">
+                    <button id="product">生成小票</button>  
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
